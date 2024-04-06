@@ -1,0 +1,14 @@
+@startuml P2P-C4-Context
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+Person_Ext(cliente, "Cliente", "Quiere mandar un mensaje")
+
+System_Boundary(system, "Sistema") {
+  System(repositorio, "Proyecto de paso de mensajes P2P", "Gestiona cuentas, envia y recibe meensajes de Peers en la red", "Elixir")
+}
+
+Rel(cliente, system, "Envía", "petición")
+Rel(system, cliente, "Recibe", "respuesta")
+
+@enduml
+

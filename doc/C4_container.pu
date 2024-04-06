@@ -1,0 +1,36 @@
+@startuml P2P-C4-Container
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+Person_Ext(cliente, "Cliente", "Quiere mandar un mensaje")
+
+System_Boundary(sistema, "Sistema") {
+   Component(AppPasoMensajes, "SuperPeer", "Gestiona la exploración entre peers")
+
+   Container_Boundary(nodo1, "Nodo 1") {
+      Component(peer1, "Peer P1", "Recibe mensajes, procesa cambiar de cuentas y envía mensajes")
+   }
+   Container_Boundary(nodo2, "Nodo 2") {
+      Component(peer2, "Peer P2", "Recibe mensajes, procesa cambiar de cuentas y envía mensajes")
+   }
+   Container_Boundary(nodoN, "Nodo N") {
+      Component(peerN, "Peer N", "Recibe mensajes, procesa cambiar de cuentas y envía mensajes")
+   }
+}
+
+Rel_D(cliente, sistema, "Realiza", "Acción")
+
+Rel_U(peer1, AppPasoMensajes, "Recibe", "Lista de peers conectados a la red")
+Rel_D(AppPasoMensajes, peer1, "Envía", "Registro de Peers")
+
+Rel_U(peer2, AppPasoMensajes, "Envía", "Notifica la creación del nodo")
+
+Rel_D(AppPasoMensajes, peer1, "Envía", "Registro de Peers")
+Rel_U(peer1, AppPasoMensajes, "Recibe", "Lista de peers conectados a la red")
+
+Rel_R(peer1, peer2, "Envía", "Manda un mensaje")
+Rel_L(peer2, peer1, "Devuelve", "Recibe un mensaje")
+
+Rel_R(peer2, peerN, "Envía", "Manda un mensaje")
+Rel_L(peerN, peer2, "Devuelve", "Recibe un mensaje")
+
+@enduml

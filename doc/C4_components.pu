@@ -1,0 +1,26 @@
+@startuml P2P-C4-Components
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+
+Person_Ext(cliente, "Cliente", "Quiere mandar un mensaje")
+
+System_Boundary(sistema, "Sistema") {
+   Component(AppPasoMensajes, "SuperPeer", "GenServer", "Gestiona la exploración entre peers")
+
+   Container_Boundary(nodo1, "Nodo 1") {
+      Component(peer1, "Peer P1", "Recibe mensajes, procesa cambiar de cuentas y envía mensajes")
+   }
+
+   Component(peerSupervisor, "peerSupervisor", "DynamicSupervisor", "Gestiona la creación de peers")
+}
+
+Rel_D(cliente, sistema, "Realiza", "acción")
+
+Rel_U(AppPasoMensajes, peer1, "Actualiza", "registro")
+Rel_D(peer1, AppPasoMensajes, "Envía", "información")
+
+
+Rel(peerSupervisor, nodo1, "Crea")
+
+
+@enduml
